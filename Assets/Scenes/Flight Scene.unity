@@ -419,10 +419,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ship: {fileID: 842062306}
   blocker: {fileID: 3952257104644276879, guid: da21e093334764040bf4e8e427105b51, type: 3}
+  panel: {fileID: 7947643789384426516, guid: bc6e0e115494775458aae9bee762ff09, type: 3}
   trenchSeed: 0
   trenchScale: 60
   blockerSpacing: 20
-  trenchLength: 200
+  trenchLength: 1200
   leadSpace: 60
   trenchStart: {x: 0, y: 0, z: 0}
   panels: 12

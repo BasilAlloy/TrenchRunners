@@ -6,6 +6,7 @@ public class TrenchGenerator : MonoBehaviour
 {
     public GameObject ship;
     public GameObject blocker;
+    public GameObject panel;
 
     // The seed used for the trench generation
     public int trenchSeed;
@@ -29,10 +30,15 @@ public class TrenchGenerator : MonoBehaviour
     private float lastBlockerZ;
 
     void spawnTrenchSection(float z) {
-        for (float d = 0f; d < 2*Mathf.PI; d += 2*Mathf.PI/panels) {
-            var panelPosition = new Vector3(Mathf.Cos(d),Mathf.Sin(d), z);
-
+        var sectionCenter = trenchStart + new Vector3(0,0,z);
+        // Spawn 12 panels to form the walls of the trench
+        for (float r = 0f; r < 2*Mathf.PI; r += 2*Mathf.PI/panels) {
+            var panelPosition = sectionCenter + new Vector3(Mathf.Cos(r) * trenchScale, Mathf.Sin(r) * trenchScale, 0);
+            var inst = Instantiate(panel, panelPosition, Quaternion.Euler(-r * Mathf.Rad2Deg, 90f, 0));
+            inst.transform.parent = gameObject.transform;
         }
+
+        spawnBlocker(z);
     }
 
     void spawnBlocker(float z)
@@ -52,7 +58,7 @@ public class TrenchGenerator : MonoBehaviour
         
         for (float z = leadSpace; z < trenchLength; z+=blockerSpacing)
         {
-            spawnBlocker(z);
+            spawnTrenchSection(z);
         }
     }
 
@@ -61,7 +67,7 @@ public class TrenchGenerator : MonoBehaviour
     {
         if (lastBlockerZ + blockerSpacing - ship.transform.position.z < trenchLength) {
             for (float z = lastBlockerZ; z < ship.transform.position.z + trenchLength + blockerSpacing; z+=blockerSpacing) {
-                spawnBlocker(z);
+                spawnTrenchSection(z);
             }
         }
     }
