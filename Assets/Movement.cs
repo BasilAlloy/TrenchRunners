@@ -4,20 +4,26 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-	public CharacterController controller;
+	[SerializeField] private Rigidbody rb;
 
-	public float speed = 25f;
+	[SerializeField] private float speed = 25f;
+	private Vector3 direction = Vector3.zero;
 
 	// Update is called once per frame
 	void Update()
 	{
 		float horizontal = Input.GetAxisRaw("Horizontal");
 		float vertical = Input.GetAxisRaw("Vertical");
-		Vector3 direction = new Vector3(horizontal, vertical, 0).normalized;
+		direction = new Vector3(horizontal, vertical, 0f).normalized;
 
-		if (direction.magnitude >= 0.1f)
+		if (Input.GetMouseButton(0))
 		{
-			controller.Move(direction * speed * Time.deltaTime);
+			direction = new Vector3(Input.mousePosition.x - Screen.width / 2, Input.mousePosition.y - Screen.height / 2, 0f).normalized;
 		}
+
+		Vector3 moveVector = transform.TransformDirection(direction) * speed;
+		rb.velocity = new Vector3(moveVector.x, moveVector.y, rb.velocity.z);
 	}
+
+	
 }
