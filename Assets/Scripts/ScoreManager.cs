@@ -8,11 +8,16 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance;
 
+	[SerializeField] private GameObject playerShip;
+
     [SerializeField] private TextMeshProUGUI scoreText;
 	[SerializeField] private TextMeshProUGUI highscoreText;
 
-    int score = 0;
+    int bonusPoints = 0;
+	int distance = 0;
+
 	int highscore = 0;
+	int score = 0;
 
 	private void Awake()
 	{
@@ -26,25 +31,34 @@ public class ScoreManager : MonoBehaviour
 		UpdateScoreText();
     }
 
-	public void AddPoint()
+	// Update is called once per frame
+	void Update()
 	{
-		score += 1;
-		if (highscore < score)
-		{
-			highscore = score;
-			PlayerPrefs.SetInt("highscore", score);
-		}
+		distance = (int)(playerShip.transform.position.z / 10);
+		UpdateScoreText();
+	}
+
+	public void AddPoints(int points)
+	{
+		bonusPoints += points;
 		UpdateScoreText();
 	}
 
 	public void ResetScore()
 	{
-		score = 0;
+		bonusPoints = 0;
 		UpdateScoreText();
 	}
 
 	private void UpdateScoreText()
 	{
+		score = bonusPoints + distance;
+		if (highscore < score)
+		{
+			highscore = score;
+			PlayerPrefs.SetInt("highscore", score);
+		}
+
 		scoreText.text = "Score: " + score.ToString();
 		highscoreText.text = "Highscore: " + highscore.ToString();
 	}

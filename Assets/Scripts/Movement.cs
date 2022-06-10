@@ -63,7 +63,7 @@ public class Movement : MonoBehaviour
             resetShip();
         } else if (other.GetComponent<Collider>().tag == "Ring")
 		{
-			ScoreManager.instance.AddPoint();
+			ScoreManager.instance.AddPoints(100);
 		}
     }
 
