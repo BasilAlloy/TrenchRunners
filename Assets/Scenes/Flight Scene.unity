@@ -420,6 +420,7 @@ MonoBehaviour:
   ship: {fileID: 842062306}
   blocker: {fileID: 3370794928844389626, guid: 1224970e3339b9b4b8981fd1598ca4f6, type: 3}
   panel: {fileID: 1618410826024608273, guid: bc6e0e115494775458aae9bee762ff09, type: 3}
+  ring: {fileID: 574253080719892122, guid: 8fdd9b0589da42743b6d0c2aff7c516d, type: 3}
   trenchSeed: 0
   trenchScale: 60
   blockerSpacing: 20

@@ -7,6 +7,7 @@ public class TrenchGenerator : MonoBehaviour
     public GameObject ship;
     public GameObject blocker;
     public GameObject panel;
+    public GameObject ring;
 
     // The seed used for the trench generation
     public int trenchSeed;
@@ -32,13 +33,18 @@ public class TrenchGenerator : MonoBehaviour
     void spawnTrenchSection(float z) {
         var sectionCenter = trenchStart + new Vector3(0,0,z);
         // Spawn 12 panels to form the walls of the trench
-        for (float r = 0f; r < 2*Mathf.PI; r += 2*Mathf.PI/panels) {
+        for (float r = 0f; r < 2*Mathf.PI - 2*Mathf.PI/panels; r += 2*Mathf.PI/panels) {
             var panelPosition = sectionCenter + new Vector3(Mathf.Cos(r) * trenchScale, Mathf.Sin(r) * trenchScale, 0);
             var inst = Instantiate(panel, panelPosition, Quaternion.Euler(-r * Mathf.Rad2Deg, 90f, 0));
             inst.transform.parent = gameObject.transform;
         }
 
         spawnBlocker(z);
+
+        // 20% of trench sections have rings.
+        if (Random.Range(0,5) == 0) {
+            spawnRing(z);
+        }
     }
 
     void spawnBlocker(float z)
@@ -49,6 +55,14 @@ public class TrenchGenerator : MonoBehaviour
         inst.transform.parent = gameObject.transform;
         
         lastBlockerZ = z;
+    }
+
+    void spawnRing(float z)
+    {
+        var position = trenchStart + new Vector3(Random.Range(-trenchScale, trenchScale), Random.Range(-trenchScale, trenchScale), z + Random.Range(-blockerSpacing/3, blockerSpacing/3));
+        var rotation = Quaternion.Euler(0, 0, Random.Range(0,360));
+        var inst = Instantiate(ring, position, rotation);
+        inst.transform.parent = gameObject.transform;
     }
 
     // Start is called before the first frame update
@@ -66,7 +80,7 @@ public class TrenchGenerator : MonoBehaviour
     void Update()
     {
         if (lastBlockerZ + blockerSpacing - ship.transform.position.z < trenchLength) {
-            for (float z = lastBlockerZ; z < ship.transform.position.z + trenchLength + blockerSpacing; z+=blockerSpacing) {
+            for (float z = lastBlockerZ; z < ship.transform.position.z + trenchLength; z+=blockerSpacing) {
                 spawnTrenchSection(z);
             }
         }
