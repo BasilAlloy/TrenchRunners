@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class Movement : MonoBehaviour
 {
@@ -60,13 +61,17 @@ public class Movement : MonoBehaviour
         if (other.GetComponent<Collider>().tag == "KillShip")
         {
             resetShip();
-        }
+        } else if (other.GetComponent<Collider>().tag == "Ring")
+		{
+			ScoreManager.instance.AddPoint();
+		}
     }
 
 	// Reset the ship's speed and position to the start of the trench
 	private void resetShip() {
         rb.velocity = new Vector3(0, 0, initialThrust);
 		gameObject.transform.position = startPosition;
+		ScoreManager.instance.ResetScore();
     }
 
 }
