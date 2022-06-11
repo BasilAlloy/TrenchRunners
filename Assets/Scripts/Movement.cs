@@ -27,6 +27,7 @@ public class Movement : MonoBehaviour
 	private float currentAcceleration;
 	
 	private void Start() {
+		currentAcceleration = acceleration;
         startPosition = gameObject.transform.position;
 		rollSpeed = 2 * Mathf.PI/360 * RollSpeed;
 		// Initialize game state
