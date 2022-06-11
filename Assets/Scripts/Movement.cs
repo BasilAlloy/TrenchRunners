@@ -15,6 +15,7 @@ public class Movement : MonoBehaviour
 	[SerializeField] private float acceleration = 0.005f;
 	// How fast the ship can roll
 	[SerializeField] private float RollSpeed = 64;
+	[SerializeField] private AudioSource crashSound;
 	// Direction the ship is moving in
 	private Vector3 direction = Vector3.zero;
 	// Records the start position of the ship so we can reset to it
@@ -62,6 +63,7 @@ public class Movement : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if (other.GetComponent<Collider>().tag == "KillShip")
         {
+			crashSound.Play();
             reset();
         } else if (other.GetComponent<Collider>().tag == "Ring")
 		{
