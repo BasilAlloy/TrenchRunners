@@ -24,6 +24,7 @@ public class Movement : MonoBehaviour
 	// List of all the rings that have been collected this run.
 	private List<Ring> collectedRings = new List<Ring>();
 	private float rollSpeed;
+	private float currentAcceleration;
 	
 	private void Start() {
         startPosition = gameObject.transform.position;
@@ -55,8 +56,19 @@ public class Movement : MonoBehaviour
 		}
 
 		Vector3 moveVector = transform.TransformDirection(direction) * speed;
-		rb.velocity = new Vector3(moveVector.x, moveVector.y, rb.velocity.z + acceleration);
+		rb.velocity = new Vector3(moveVector.x, moveVector.y, rb.velocity.z + currentAcceleration);
 		rb.angularVelocity = new Vector3(0,0, rotateDir * rollSpeed);
+	}
+
+	// Pause and resume the ship when the game is paused.
+	public void Pause()
+	{
+		currentAcceleration = 0f;
+	}
+
+	public void Resume() 
+	{
+		currentAcceleration = acceleration;
 	}
 
 	// Whenever the ship collides with an object tagged with killship, reset the ship.
