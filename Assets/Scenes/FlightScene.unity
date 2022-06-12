@@ -887,7 +887,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 701547844}
   speed: 25
-  initialThrust: 25
+  initialThrust: 30
   acceleration: 0.005
   RollSpeed: 64
   crashSound: {fileID: 701547845}
