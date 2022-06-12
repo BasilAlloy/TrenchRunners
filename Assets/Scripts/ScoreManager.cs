@@ -12,11 +12,13 @@ public class ScoreManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI scoreText;
 	[SerializeField] private TextMeshProUGUI highscoreText;
+	[SerializeField] private TextMeshProUGUI lastscoreText;
 
     int bonusPoints = 0;
 	int distance = 0;
 
 	int highscore = 0;
+	int lastscore = 0;
 	int score = 0;
 
 	private void Awake()
@@ -28,6 +30,7 @@ public class ScoreManager : MonoBehaviour
 	void Start()
     {
 		highscore = PlayerPrefs.GetInt("highscore", 0);
+		lastscore = PlayerPrefs.GetInt("lastscore", 0);
 		UpdateScoreText();
     }
 
@@ -46,6 +49,8 @@ public class ScoreManager : MonoBehaviour
 
 	public void ResetScore()
 	{
+		lastscore = bonusPoints + distance;
+		PlayerPrefs.SetInt("lastscore", lastscore);
 		bonusPoints = 0;
 		UpdateScoreText();
 	}
@@ -60,6 +65,7 @@ public class ScoreManager : MonoBehaviour
 		}
 
 		scoreText.text = "Score: " + score.ToString();
-		highscoreText.text = "Highscore: " + highscore.ToString();
+		highscoreText.text = "High Score: " + highscore.ToString();
+		lastscoreText.text = "Last Run: " + lastscore.ToString();
 	}
 }

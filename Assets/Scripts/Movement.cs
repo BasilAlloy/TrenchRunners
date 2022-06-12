@@ -31,7 +31,7 @@ public class Movement : MonoBehaviour
         startPosition = gameObject.transform.position;
 		rollSpeed = 2 * Mathf.PI/360 * RollSpeed;
 		// Initialize game state
-		reset();
+		initializeShip();
     }
 
 	// Update is called once per frame
@@ -76,8 +76,7 @@ public class Movement : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if (other.GetComponent<Collider>().tag == "KillShip")
         {
-			crashSound.Play();
-            reset();
+       		reset();
         } else if (other.GetComponent<Collider>().tag == "Ring")
 		{
 			// Score the ring
@@ -92,9 +91,10 @@ public class Movement : MonoBehaviour
 
 	// Reset the ship's speed and position to the start of the trench
 	private void reset() {
-        rb.velocity = new Vector3(0, 0, initialThrust);
-		gameObject.transform.position = startPosition;
-		gameObject.transform.rotation = Quaternion.identity;
+        crashSound.Play();
+
+
+		initializeShip();
 		// Reset the current score
 		ScoreManager.instance.ResetScore();
 		// Reset all the scored rings
@@ -103,5 +103,12 @@ public class Movement : MonoBehaviour
 			ring.resetRing();
 		}
     }
+
+	// Set the ship's speed and position to the start of the trench
+	private void initializeShip() {
+		rb.velocity = new Vector3(0, 0, initialThrust);
+		gameObject.transform.position = startPosition;
+		gameObject.transform.rotation = Quaternion.identity;
+	}
 
 }
